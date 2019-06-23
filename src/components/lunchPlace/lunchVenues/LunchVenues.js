@@ -56,6 +56,19 @@ function LunchVenues(props) {
         setParticipants(updatedParticipants);
     }
 
+    function onVoteChange(participantId, venueId) {
+        let updatedParticipants = participants.map(participant => {
+            if (participant.id !== participantId) {
+                return participant;
+            }
+            return {
+                ...participant,
+                vote: venueId
+            };
+        });
+        setParticipants(updatedParticipants);
+    }
+
     useEffect(() => {
         getVenues(props.address);
     }, [props.address]);
@@ -81,7 +94,8 @@ function LunchVenues(props) {
                             <Participant key={participant.id}
                                 participant={participant}
                                 venues={venues}
-                                onNameChange={onNameChange}></Participant>
+                                onNameChange={onNameChange}
+                                onVoteChange={onVoteChange}></Participant>
                         ))
                     }
                 </tbody>

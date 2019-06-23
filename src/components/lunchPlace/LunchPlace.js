@@ -8,7 +8,7 @@ function LunchPlace() {
         setAddress(address);
     }
     return (
-        <div className="container">
+        <div className="lunch-place container">
             <header>Lunch Place</header>
             <Search onGeocodeSubmit={onGeocodeSubmit}></Search>
             <LunchVenues address={address}></LunchVenues>

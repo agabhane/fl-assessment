@@ -5,6 +5,9 @@ function Participant(props) {
     function onNameChange(e) {
         props.onNameChange(id, e.target.value);
     }
+    function onVoteChange(venueId) {
+        props.onVoteChange(id, venueId);
+    }
     return (
         <tr>
             <td>
@@ -12,7 +15,11 @@ function Participant(props) {
             </td>
             {
                 props.venues.map(venue => (
-                    <td key={venue.id}></td>
+                    <td key={venue.id}>
+                        <button onClick={() => { onVoteChange(venue.id) }}>
+                        {venue.id === vote ? 'X' : 'O'}
+                        </button>
+                    </td>
                 ))
             }
         </tr>
