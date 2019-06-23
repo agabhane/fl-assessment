@@ -15,10 +15,11 @@ function Participant(props) {
             </td>
             {
                 props.venues.map(venue => (
-                    <td key={venue.id}>
-                        <button onClick={() => { onVoteChange(venue.id) }}>
-                        {venue.id === vote ? 'X' : 'O'}
-                        </button>
+                    <td key={venue.id} className={venue.id === vote ? 'vote selected' : 'vote'}
+                        onClick={() => { onVoteChange(venue.id) }}>
+                        {
+                            venue.id === vote ? <i className="fas fa-check"></i> : ''
+                        }
                     </td>
                 ))
             }

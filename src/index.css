@@ -1,12 +1,29 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap');
 body {
   margin: 0;
-  font-family: 'Open Sans', sans-serif;;
+  font-family: 'Open Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #fafafa;
 }
 
 .container {
   width: 960px;
   margin: 0 auto;
+}
+
+input[type="text"] {
+  padding: 5px 10px;
+  border: 1px solid #d9d9d9;
+  font-family: 'Open Sans', sans-serif;
+}
+
+button {
+  font-family: 'Open Sans', sans-serif;
+  padding: 6px 20px;
+  border: 0px;
+  background: darkblue;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 15px;
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Search from './search/Search';
 import LunchVenues from './lunchVenues/LunchVenues';
+import './LunchPlace.css';
 
 function LunchPlace() {
     const [address, setAddress] = useState('');

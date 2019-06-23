@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Search.css';
 
 function Search(props) {
     const [geocode, setGeocode] = useState('');
@@ -9,7 +10,7 @@ function Search(props) {
         props.onGeocodeSubmit(geocode);
     }
     return (
-        <div className="search wrapper">
+        <div className="search-wrapper">
             <input type="text" placeholder="Enter geocode" value={geocode} onChange={onGeocodeChange} />
             <button onClick={onGeocodeSubmit}>Search</button>
         </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import uuid from 'uuid';
 
 import Participant from './Participant';
+import './LunchVenues.css';
 
 function LunchVenues(props) {
     const [venues, setVenues] = useState([]);
@@ -23,15 +24,21 @@ function LunchVenues(props) {
                 return respose.json();
             })
             .then((data) => {
-                const venues = data.response.groups[0].items.map(item => {
-                    const { id, name } = item.venue;
-                    return {
-                        id,
-                        name
-                    };
-                });
-                console.log(venues);
-                setVenues(venues);
+                if (data.response.groups) {
+                    const venues = data.response.groups[0].items.map(item => {
+                        const { id, name } = item.venue;
+                        return {
+                            id,
+                            name
+                        };
+                    });
+                    console.log(venues);
+                    setVenues(venues);
+                    setParticipants([]);
+                } else {
+                    setVenues([]);
+                    setParticipants([]);
+                }
             })
     }
 
@@ -69,38 +76,66 @@ function LunchVenues(props) {
         setParticipants(updatedParticipants);
     }
 
+    function getMaxVoteCount() {
+        let voteCount = {};
+        participants.forEach((p) => {
+            if (voteCount[p.vote]) {
+                voteCount[p.vote] += 1;
+            } else {
+                voteCount[p.vote] = 1;
+            }
+        });
+        let maxKey = Object.keys(voteCount)[0];
+        for (let key in voteCount) {
+            if (voteCount[key] > voteCount[maxKey]) {
+                maxKey = key;
+            }
+        }
+        return maxKey;
+    }
+
     useEffect(() => {
         getVenues(props.address);
     }, [props.address]);
 
+    const maxVotesVenueId = getMaxVoteCount();
+
     return (
         <div className="lunch-venues">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Participants</th>
-                        {
-                            venues.map(venue => (
-                                <th key={venue.id}>
-                                    <div className="name">{venue.name}</div>
-                                </th>
-                            ))
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        participants.map(participant => (
-                            <Participant key={participant.id}
-                                participant={participant}
-                                venues={venues}
-                                onNameChange={onNameChange}
-                                onVoteChange={onVoteChange}></Participant>
-                        ))
-                    }
-                </tbody>
-            </table>
-            <button onClick={addParticipant}>Add Participant</button>
+            {
+                venues.length < 1 ? '' : (
+                    <React.Fragment>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Participants</th>
+                                    {
+                                        venues.map(venue => (
+                                            <th key={venue.id} className="venue-name">
+                                                <span className="name">{venue.name}
+                                                    {maxVotesVenueId === venue.id ? <i className="fas fa-check icon-check"></i> : ''}
+                                                </span>
+                                            </th>
+                                        ))
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    participants.map(participant => (
+                                        <Participant key={participant.id}
+                                            participant={participant}
+                                            venues={venues}
+                                            onNameChange={onNameChange}
+                                            onVoteChange={onVoteChange}></Participant>
+                                    ))
+                                }
+                            </tbody>
+                        </table>
+                        <button className="btn-add-participant" onClick={addParticipant}>Add Participant</button>
+                    </React.Fragment>
+                )
+            }
         </div>
     )
 }
